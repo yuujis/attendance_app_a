@@ -8,8 +8,12 @@ ja:
           id: ID
           name: 名前
           email: メールアドレス
-          department: 所属
-          basic_time: 基本時間
+          affiliation: 所属
+          employee_number: 社員番号
+          uid: カードID
+          basic_work_time: 基本勤務時間
+          designated_work_start_time: 指定開始時間
+          designated_work_end_time: 指定終了時間
           work_time: 勤務時間
           password: パスワード
           password_confirmation: パスワード再入力
@@ -17,6 +21,7 @@ ja:
           updated_at: 更新日
         attendance:
           worked_on: 日付
+          day_of_week: 曜日
           started_at: 出勤時間
           finished_at: 退勤時間
           note: 備考

@@ -8,12 +8,21 @@ Rails.application.routes.draw do
   delete '/logout', to: 'sessions#destroy'
 
   resources :users do
+    
+      collection {post :import}
+    
     member do
-      get 'edit_basic_info'
+      post '/user_edit', to: 'users#user_edit'
+      get 'edit_overtime_info'
       patch 'update_basic_info'
       get 'attendances/edit_one_month'
-      patch 'attendances/update_one_month' # この行が追加対象です。
+      patch 'attendances/update_one_month' 
     end
+    
+    collection do #idを必要としない
+      get 'employees'
+    end
+    
     resources :attendances, only: :update
   end
 end

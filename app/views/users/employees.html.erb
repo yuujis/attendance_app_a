@@ -1,0 +1,26 @@
+<% provide(:title, 'All Users') %>
+<h1>出勤社員一覧</h1>
+
+<div class="col-md-10 col-md-offset-1">
+  
+  <table class="table table-condensed table-hover" id="table-users">
+    <thead>
+      <tr>
+        <th class="text-center">社員番号</th>
+        <th class="text-center">名前</th>
+      </tr>
+    </thead>
+
+    <% @users.each do |user| %>
+     <% user.attendances.each do |attendance| %>
+      <tr>
+        <% if attendance.started_at != nil && attendance.finished_at == nil %> 
+          <td><%= user.employee_number %></td>
+          <td><%= user.name %></td>
+      </tr>
+        <% end %>
+      <% end %>
+    <% end %>
+  </table>
+  
+</div>

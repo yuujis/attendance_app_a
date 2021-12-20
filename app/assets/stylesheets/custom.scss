@@ -68,6 +68,11 @@ p {
   text-decoration: none;
 }
 
+/* show_table */
+.at_btn{
+  margin-bottom: 30px;
+}
+
 /* debug */
 
 .debug_dump {
@@ -103,3 +108,12 @@ p {
   padding-top: 10%;
 }
 
+/* 曜日色変更 */
+
+.saturday {
+  color: blue;
+}
+
+.sunday {
+  color: red;
+}
