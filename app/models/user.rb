@@ -59,28 +59,28 @@ class User < ApplicationRecord
   end
   
   def self.import(file)
+     CSV.foreach(file.path, encoding: 'UTF-8', headers: true) do |row|
     
-    CSV.foreach(file.path,encoding: '#{encoding}:UTF-8', headers: true) do |row|
-    # IDが見つかれば、レコードを呼び出し、見つかれなければ、新しく作成
-      user = find_by(id: row["id"]) || new
-      # CSVからデータを取得し、設定する
-      user.attributes = row.to_hash.slice(*updatable_attributes)
-      user.save!
+   if file.blank?
+    #ファイル添付がなかった時の処理
+    flash[:danger] = "CSVファイルが添付されていません。" 
+    
+  else
+        # 添付されていた時の処理。今のcodeをそのままここに収める
+   
+        # IDが見つかれば、レコードを呼び出し、見つかれなければ、新しく作成
+        user = find_by(id: row["id"]) || new
+        # CSVからデータを取得し、設定する
+        user.attributes = row.to_hash.slice(*updatable_attributes)
+        user.save!
+      end
     end
   end
   
-# def self.generate_csv
-#    CSV.generate(headers: true, encoding: 'Windows_31J') do |csv|
-#       csv << csv_attributes
-#       all.each do |part|
-#         csv << csv_attributes.map{|attr| part.send(attr)}
-#       end
-#     end
-#   end
-
+  private
   # 更新を許可するカラムを定義
   def self.updatable_attributes
-    ["name","email","affiliation","employee_number","uid","password","basic_work_time","designated_work_start_time","designated_work_end_time"]
+    ["id","name","email","affiliation","employee_number","uid","password","basic_work_time","designated_work_start_time","designated_work_end_time"]
   end
   
 end

@@ -42,13 +42,13 @@
 
     <b>【残業申請のお知らせ】</b><br>
     <div>
-      <%= link_to "勤務を編集","#", class: "btn btn-primary " %><%= link_to "CSV出力","#", class: "btn btn-primary " %><br>
+      <%= link_to "勤務を編集","#", class: "btn btn-primary " %>&nbsp;<%= link_to "CSV出力","#", class: "btn btn-primary " %><br>
       <%= link_to "勤務修正ログ（承認済）","#", class: "btn btn-primary " %>
     </div>
     <% else %>
   <div>
     <div class="at_btn">
-        <%= link_to "勤務を編集","#", class: "btn btn-primary " %><%= link_to "CSV出力","#", class: "btn btn-primary " %><br>
+        <%= link_to "勤務を編集","#", class: "btn btn-primary " %>&nbsp;<%= link_to "CSV出力","#", class: "btn btn-primary " %><br>
         <%= link_to "勤務修正ログ（承認済）","#", class: "btn btn-primary " %>
     </div>
 
@@ -114,9 +114,7 @@
             <% end %>
           </td>
           
-          <td>
-          </td>
-          
+          <td><%= day.started_at.hour if day.started_at.present?%></td>
           <td><%= format_min(day.started_at) if day.started_at.present? %></td>
           <td>
             <% if btn_text = attendance_state(day) %>
@@ -128,6 +126,7 @@
           <td><%= format_min(day.finished_at) if day.finished_at.present? %></td>
           
           <td></td>
+          <!-- 在宅時間 -->
           <td>
             <% if day.started_at.present? && day.finished_at.present? %>
               <%= str_times = working_times(day.started_at, day.finished_at) %>
@@ -136,7 +135,11 @@
           </td>
           
           <td><%= day.note %></td>
-          <td><%= day.finished_at.hour if day.finished_at.present? %></td>
+          <td>
+            <% if day.started_at.present? && day.finished_at.present? %>
+                <%= working_times(day.started_at, day.finished_at) %>
+            <% end %>
+          </td>
           <td><%= format_min(day.finished_at) if day.finished_at.present? %></td>
           <td><%= format_basic_info(@user.basic_work_time).to_f * @worked_sum %></td>
           <td></td>

@@ -11,13 +11,13 @@ class UsersController < ApplicationController
   end
   
   def import
-    
     if params[:file].blank?
-    flash[:warning] = "CSVファイルが選択されていません。"
-    # fileはtmpに自動で一時保存される
-    User.import(params[:file])
-    flash[:success] =  "ユーザー場をインポートしました"
-    redirect_to users_url
+      flash[:warning] = "CSVファイルが選択されていません。"
+      # fileはtmpに自動で一時保存される
+    else
+      User.import(params[:file])
+      flash[:success] =  "ユーザー場をインポートしました"
+      redirect_to users_url
     end
   end
   
