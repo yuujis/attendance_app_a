@@ -41,8 +41,10 @@
     <b>【勤務変更申請のお知らせ】</b><br>
 
     <b>【残業申請のお知らせ】</b><br>
+    <div class="bt_space">
+      <%= link_to "勤務を編集","#", class: "btn btn-primary " %>&nbsp;<%= link_to "CSV出力","#", class: "btn btn-primary " %>
+    </div>
     <div>
-      <%= link_to "勤務を編集","#", class: "btn btn-primary " %>&nbsp;<%= link_to "CSV出力","#", class: "btn btn-primary " %><br>
       <%= link_to "勤務修正ログ（承認済）","#", class: "btn btn-primary " %>
     </div>
     <% else %>
@@ -54,7 +56,7 @@
 
   </div>
   <% end %>
-  
+  <br>
 <div>
   <table class="table table-bordered table-condensed table-hover table-striped" id="table-attendances">
     <thead>

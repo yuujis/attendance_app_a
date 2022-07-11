@@ -1,0 +1,38 @@
+<h1>拠点一覧</h1>
+    <table class="table table-bordered table-striped table-hover" id="table-users">
+        <thead>
+            <tr>
+                <th class="center">拠点修正</th>
+                <th class="center">拠点削除</th>
+                <th class="center">拠点番号</th>
+                <th class="center">拠点名</th>
+                <th class="center">拠点種類</th>
+            </tr>
+        </thead>
+         <% @bases.each do |base| %>
+        <tbody>
+            <tr>
+                <td class="center">
+                    
+                    <%= link_to "修正", edit_base_path(base), class: "btn btn-primary " %>
+                </td>
+                <td>
+                    <%= link_to "削除", base_path(base), method: :delete,
+                    data: { confirm: "削除してよろしいですか？" }, class: "btn btn-primary " %>
+                </td>
+                <td><%= base.id %></td>
+                <td><%= base.name %></td>
+                 <td><%= base.btype %></td>
+                <td></td>
+            </tr>
+         </tbody>
+         <% end %>
+    </table>
+    <table class="table table-bordered table-striped">
+        <tr>    
+            <td colspan="5">
+                <%= link_to "拠点情報追加",new_base_path, class: "btn btn-primary " %>
+            </td>
+        </tr>
+    </table>
+

@@ -1,0 +1,32 @@
+<h1>拠点情報修正</h1>
+
+  <table class="table table-bordered table-striped table-hover center" id="table-users">
+  <%= form_with(model: @base, url: base_path(@base), local: true, method: :patch) do |f| %>
+  
+    <thead>
+      <tr>
+      <th class="center">拠点修正</th>
+      <th class="center">拠点番号</th>
+      <th class="center">拠点名</th>
+      <th class="center">拠点種類</th>
+      </tr>
+    </thead>
+    
+    <tbody>
+      <tr>
+        <td class="center">
+          <%= f.submit "拠点情報更新", class: "btn btn-primary " %>&nbsp;<%= link_to "キャンセル",base_path, class: "btn btn-primary" %>
+        </td>
+        <td class="center">
+          <%= f.text_field :id, class: "form-control" %>
+        </td>
+        <td class="center">
+          <%= f.text_field :name, class: "form-control" %>
+        </td>
+        <td class="center">
+          <%= f.text_field :btype, class: "form-control" %>
+        </td>
+      </tr>
+    </tbody>
+    <% end %>
+  </table>

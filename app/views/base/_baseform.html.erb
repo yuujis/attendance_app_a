@@ -1,0 +1,29 @@
+<table class="table table-bordered table-striped table-hover center" id="table-users">
+
+  <%= form_with(model: @bases, local: true) do |f| %>
+  
+    <thead>
+      <tr>
+        <th class="center">拠点修正</th>
+        <th class="center">拠点名</th>
+        <th class="center">拠点種類</th>
+      </tr>
+    </thead>
+    
+    <tbody>
+      <tr>
+        <td class="center">
+          <%= f.submit yield(:button_text), class: "btn btn-primary " %>
+        </td>
+        <td class="center">
+          <%= f.label :name, class: "label-#{yield(:class_text)}" %>
+          <%= f.text_field :name, class: "form-control " %>
+        </td>
+        <td class="center">
+          <%= f.label :btype, class: "label-#{yield(:class_text)}" %>
+          <%= f.text_field :btype, class: "form-control " %>
+        </td>
+      </tr>
+    </tbody>
+    <% end %>
+  </table>

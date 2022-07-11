@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   root 'static_pages#top'
   get '/signup', to: 'users#new'
 
@@ -7,10 +8,13 @@ Rails.application.routes.draw do
   post   '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
 
+  resources :base  do
+  end
+  
   resources :users do
     
-      collection {post :import}
-     get 'import', to: 'users#import'
+    collection {post :import}
+    get 'import', to: 'users#import'
     member do
       post '/user_edit', to: 'users#user_edit'
       get 'edit_overtime_info'
@@ -24,5 +28,6 @@ Rails.application.routes.draw do
     end
     
     resources :attendances, only: :update
+
   end
 end

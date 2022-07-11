@@ -15,7 +15,7 @@
      <% user.attendances.each do |attendance| %>
       <tr>
         <% if attendance.started_at != nil && attendance.finished_at == nil %> 
-          <td><%= user.employee_number %></td>
+          <td><%= user.id %></td>
           <td><%= user.name %></td>
       </tr>
         <% end %>

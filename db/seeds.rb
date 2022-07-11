@@ -34,3 +34,9 @@ User.create!(
                password_confirmation: password,
                )
 end
+
+5.times do |n|
+    name  = "拠点#{n+1}"
+    Base.create!(name: name
+               )
+end
