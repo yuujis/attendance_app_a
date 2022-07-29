@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
 
   $days_of_the_week = %w{日 月 火 水 木 金 土}
 
+protect_from_forgery with: :exception
 
     # paramsハッシュからユーザーを取得します。
     def set_user
@@ -12,6 +13,10 @@ class ApplicationController < ActionController::Base
     
     def set_base
       @base = Base.find(params[:id])
+    end
+    
+    def set_attendance
+      @attendance = Attendance.find(params[:id])
     end
 
     # ログイン済みのユーザーか確認します。

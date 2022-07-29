@@ -28,7 +28,7 @@ class AttendancesController < ApplicationController
 
   def edit_one_month
   end
-
+  
   def update_one_month
     ActiveRecord::Base.transaction do # トランザクションを開始します。
       attendances_params.each do |id, item|
@@ -47,7 +47,7 @@ class AttendancesController < ApplicationController
     User.import(params[:file])
     redirect_to root_url
   end
-
+  
   private
 
     # 1ヶ月分の勤怠情報を扱います。

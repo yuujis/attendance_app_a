@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   resources :users do
     
     collection {post :import}
-    get 'import', to: 'users#import'
+      get 'import', to: 'users#import'
     member do
       post '/user_edit', to: 'users#user_edit'
       get 'edit_overtime_info'
@@ -28,6 +28,8 @@ Rails.application.routes.draw do
     end
     
     resources :attendances, only: :update
+      post 'overtime_superior'
+    
 
   end
 end
