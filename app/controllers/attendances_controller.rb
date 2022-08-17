@@ -1,6 +1,6 @@
 class AttendancesController < ApplicationController
-  before_action :set_user, only: [:edit_one_month, :update_one_month]
-  before_action :logged_in_user, only: [:update, :edit_one_month]
+  before_action :set_user, only: [:edit_overtime_info,:edit_one_month, :update_one_month]
+  before_action :logged_in_user, only: [:update, :edit_overtime_info, :update_overtime_info,:edit_one_month]
   before_action :admin_or_correct_user, only: [:update, :edit_one_month, :update_one_month]
   before_action :set_one_month, only: :edit_one_month
 
@@ -47,8 +47,40 @@ class AttendancesController < ApplicationController
     User.import(params[:file])
     redirect_to root_url
   end
+
+  def edit_overtime_info
+    
+    @attendance = Attendance.find(params[:id])
+    # @overtimeapp = Attendance.update_attributes(params[overtime_info_params])
+  
+    # flash[:info] = "残業申請を送信しました。"
+    # redirect_to @user
+  end
+    
+  def update_overtime_info
+    @user = User.find(params[:user_id])
+    @attendance = Attendance.find(params[:attendance_id])
+    @overtimeapp = Ovetimeapp.find(params[overtime_info_params])
+    if @attendance.update(overtime_info_params)
+      flash[:success] = "#{@user.name}の残業申請をしました。"
+    else
+      flash[:denger] = "#{@user.name}の残業申請送信を失敗しました。"
+    end
+    redirect_to user_url(@user)
+  end
+  
+  def overtime_superior
+    @user = User.find(params[:user_id])
+    @attendance = Attendance.find(params[:attendance_id])
+
+  end
   
   private
+
+     def overtime_info_params
+       params.require(:user).permit(:schedule, :next_day,:buz_memo,:confirmation)
+     end
+
 
     # 1ヶ月分の勤怠情報を扱います。
     def attendances_params

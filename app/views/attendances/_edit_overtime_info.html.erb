@@ -1,0 +1,62 @@
+<% provide(:button_text, '変更を送信する') %>
+
+<div class="modal-dialog modal-lg modal-dialog-center">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">×</span>
+      </button>
+      <h1 class="modal-title">【残業申請】</h1>
+    </div>
+    <div class="modal-body">
+      
+      <div class="row">
+        <div class="col-md-9 col-md-offset-3">
+          <%= form_with(model: @user , url: update_overtime_info_user_attendance_path(@user,@attendance),remote: true, local: true) do |f| %>
+            <%= render 'shared/error_messages', object: @user %>
+              <table class=" table-bordered table-condensed table-hover table-striped" >
+                <tbody>
+                  <tr>
+                    <th>日付</th>
+                    <th>曜日</th>
+                    <th>終了予定時間</th>
+                    <th>翌日</th>
+                    <th>業務処理内容</th>
+                    <th>指示者確認㊞</th>
+                  </tr>
+                  <tr>
+                    <td>
+                      <%= l(@attendance.worked_on, format: :short) %></td>
+                    <td>
+                      <%= $days_of_the_week[@attendance.worked_on.wday] %>
+                    </td>
+                    <td><%= f.time_select :schedule, class: 'form-control' %></td>
+                    <td><%= f.check_box :next_day, class: 'form-control' %></td>
+                    <td><%= f.text_field :buz_memo, class: 'form-control' %></td>
+                    <td><%= f.select :confirmation, [["上長A", "confirmationA"], ["上長B", "confirmationB"]], include_blank: "指示者選択", class: 'form-control' %></td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+      </div>
+            
+      <div class="row">
+        <div class="col-md-9  col-md-offset-3">
+
+          <table class="table-bordered table-condensed">
+            <tr>
+              <td>
+                <%= f.submit yield(:button_text), class: "btn btn-primary btn-block" %>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <% end %>
+        
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>

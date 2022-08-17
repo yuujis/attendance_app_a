@@ -17,8 +17,6 @@ Rails.application.routes.draw do
       get 'import', to: 'users#import'
     member do
       post '/user_edit', to: 'users#user_edit'
-      get 'edit_overtime_info'
-      patch 'update_overtime_info'
       get 'attendances/edit_one_month'
       patch 'attendances/update_one_month' 
     end
@@ -27,9 +25,13 @@ Rails.application.routes.draw do
       get 'employees'
     end
     
-    resources :attendances, only: :update
-      post 'overtime_superior'
-    
-
+    resources :attendances  do
+      member do
+        post 'overtime_superior'
+        get 'edit_overtime_info'
+        patch 'update_overtime_info'
+      end
+    end
   end
+  
 end

@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   require 'csv'
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :edit_overtime_info, :update_overtime_info,:user_edit] 
-  before_action :logged_in_user, only: [:index, :edit, :update, :destroy, :edit_overtime_info, :update_overtime_info, :user_edit]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :user_edit] 
+  before_action :logged_in_user, only: [:index, :edit, :update, :destroy, :user_edit]
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_user, only: [:index, :destroy, :employees, :user_edit]
   before_action :set_one_month, only: :show
@@ -25,7 +25,13 @@ protect_from_forgery with: :exception
   def show
     @attendance = Attendance.find(params[:id])
     @worked_sum = @attendances.where.not(started_at: nil).count
+    @superior = User.where(superior: true).where.not(id: @user.id)
+    
+    # if current_user.superior?
+    #   @overwork_sum = Attendance.includes(:user).where(superior_confirmation: current_user.id,overwork_status:　"申請中").count
+    # end
   end
+  
   
   def new
     @user = User.new
@@ -60,28 +66,6 @@ protect_from_forgery with: :exception
     redirect_to users_url
   end
 
-  def edit_overtime_info
-    # @user = User.find(params[:user_id])
-    # @attendances = Attendance.find(params[:attendance_id])
-    # @superiors = User.where(superior: true).where.not(id: @user.id)
-    @user.attendances.find_by(worked_on:params[:date])
-
-
-    # @user = User.find(params[:user_id])
-    # @attendance = Attendance.find(params[:attendance_id])
-     
-    # @attendance.update_attributes(overtime_info_params)
-    # flash[:info] = "残業申請を送信しました。"
-    # redirect_to @user
-  end
-  
-  def update_overtime_info
-  end
-  
-  def overtime_superior
-    
-  end
-  
   def user_edit
   end
 
@@ -107,8 +91,5 @@ protect_from_forgery with: :exception
     def basic_info_params
       params.require(:user).permit(:affiliation, :basic_time, :work_time)
     end
-    # def overtime_info_params
-    #   params.require(:user).permit( :overendtime, :next_day,:)
-    # end
 
 end

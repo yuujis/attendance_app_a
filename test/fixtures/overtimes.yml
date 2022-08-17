@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  schedule: 2022-08-02 01:25:15
+  next_day: false
+  biz_memo: MyString
+  confirmation: MyString
+
+two:
+  schedule: 2022-08-02 01:25:15
+  next_day: false
+  biz_memo: MyString
+  confirmation: MyString
