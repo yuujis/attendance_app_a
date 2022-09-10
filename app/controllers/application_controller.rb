@@ -27,7 +27,17 @@ protect_from_forgery with: :exception
         redirect_to login_url
       end
     end
+  def weekend
+    $days_of_the_week = %w{日 月 火 水 木 金 土}
+    if $days_of_the_week == 0 
+      tag.span($days_of_the_week,class: 'sunday') 
+    elsif $days_of_the_week == 6 
+      tag.span($days_of_the_week, class: 'saturday') 
+    else 
+      $days_of_the_week
+    end 
 
+  end
     # アクセスしたユーザーが現在ログインしているユーザーか確認します。
     def correct_user
       redirect_to(root_url) unless current_user?(@user)

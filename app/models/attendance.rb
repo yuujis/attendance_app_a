@@ -18,6 +18,9 @@ class Attendance < ApplicationRecord
       errors.add(:started_at, "より早い退勤時間は無効です") if started_at > finished_at
     end
   end
+  enum overtime_confirm: { "申請中" => 1, "承認" => 2, "否認" => 3 }, _prefix: true
+  enum confirm: { "申請中" => 1, "承認" => 2, "否認" => 3 }, _prefix: true
+
   # def self.import(file)
   #   CSV.foreach(file.path, headers: true) do |row|
   #     # IDが見つかれば、レコードを呼び出し、見つかれなければ、新しく作成

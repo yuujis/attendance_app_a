@@ -1,5 +1,5 @@
 class AttendancesController < ApplicationController
-  before_action :set_user, only: [:edit_overtime_info,:edit_one_month, :update_one_month]
+  before_action :set_user, only: [:edit_one_month, :update_one_month]
   before_action :logged_in_user, only: [:update, :edit_overtime_info, :update_overtime_info,:edit_one_month]
   before_action :admin_or_correct_user, only: [:update, :edit_one_month, :update_one_month]
   before_action :set_one_month, only: :edit_one_month
@@ -49,7 +49,7 @@ class AttendancesController < ApplicationController
   end
 
   def edit_overtime_info
-    
+    @user = User.find(params[:user_id])
     @attendance = Attendance.find(params[:id])
     # @overtimeapp = Attendance.update_attributes(params[overtime_info_params])
   
@@ -57,28 +57,66 @@ class AttendancesController < ApplicationController
     # redirect_to @user
   end
     
+  # 残業申請の更新処理
   def update_overtime_info
     @user = User.find(params[:user_id])
-    @attendance = Attendance.find(params[:attendance_id])
-    @overtimeapp = Ovetimeapp.find(params[overtime_info_params])
-    if @attendance.update(overtime_info_params)
-      flash[:success] = "#{@user.name}の残業申請をしました。"
+    @attendance = Attendance.find(params[:id])
+    @worktime = @user.designated_work_end_time
+    
+    if overtime_info_params.nil?
+      if params[:attendance][:confirmation].blank?
+        flash[:danger] = "上長が選択されていません。"
+        redirect_to @user
+      elsif @attendance.finished_at.blank?
+        flash[:danger] = "退社時間が未入力です。"
+        redirect_to @user
+      elsif ((params[:attendance]["schedule(4i)"].to_i < @worktime.hour) &&
+        params[:attendance][:next_day] == "false")
+          flash[:danger] = "指定勤務終了時間より早い終了予定時間は無効です。"
+          redirect_to @user
+      else
+        flash[:danger] = "申請情報に不正な入力があるため、残業申請できませんでした。"
+        redirect_to @user
+      end
     else
-      flash[:denger] = "#{@user.name}の残業申請送信を失敗しました。"
+      @attendance.update(overtime_info_params)
+      @attendance.update(overtime_confirm: "申請中", overtime_check: false)
+      flash[:success] = "残業申請しました。"
+      redirect_to @user
     end
-    redirect_to user_url(@user)
   end
   
-  def overtime_superior
-    @user = User.find(params[:user_id])
-    @attendance = Attendance.find(params[:attendance_id])
-
+  # 残業申請のお知らせモーダル
+  def edit_notice_overtime
+    @notice_users = User.where(id: Attendance.where(name: current_user.name).where(overtime_check: false).where.not(endtime_at: nil).select(:user_id)).where.not(id: current_user)
+    users(@notice_users)
+  end
+  
+  # 残業申請お知らせの更新
+  def update_notice_overtime
+    # 前提:form_withのurl引数（@user）はbefore_actionの
+    #      set_userによって「上長」のユーザー情報を得る。
+    @notice_users = User.where(id: Attendance.where(overtime_check: false).where.not(endtime_at: nil).select(:user_id))
+    users(@notice_users)
+    if overtime_notice.updat.invalid?
+      notice_overtime_params.each do |id, item|
+        attendance = Attendance.find(id)
+        if params[:attendance][:notice_attendances][id][:overtime_check] == "true"
+          attendance.update_attributes(item)
+        end
+      end
+      flash[:success] = "残業申請の変更を通知しました。</br>※変更にチェックがない申請は更新されていません。".html_safe
+      redirect_to @user
+    else
+      flash[:danger] = "残業申請の変更ができませんでした。</br>※変更チェックボックスが選択されません。"
+      redirect_to @user
+    end
   end
   
   private
 
      def overtime_info_params
-       params.require(:user).permit(:schedule, :next_day,:buz_memo,:confirmation)
+       params.permit(:schedule, :next_day,:confirmation)
      end
 
 

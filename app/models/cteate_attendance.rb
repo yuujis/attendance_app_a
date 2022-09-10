@@ -1,0 +1,2 @@
+class CteateAttendance < ApplicationRecord
+end

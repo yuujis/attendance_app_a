@@ -10,7 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20220816075525) do
+ActiveRecord::Schema.define(version: 20220819080350) do
+
+  create_table "approvals", force: :cascade do |t|
+    t.integer "superior"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "attendances", force: :cascade do |t|
     t.date "worked_on"
@@ -21,30 +27,23 @@ ActiveRecord::Schema.define(version: 20220816075525) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "overtime"
+    t.datetime "schedule"
+    t.boolean "next_day"
+    t.string "bizmemo"
+    t.string "confirmation"
+    t.integer "overtime_confirm"
+    t.boolean "overtime_check", default: false, null: false
+    t.integer "suppoter"
+    t.boolean "attendance_change_check"
+    t.boolean "attendance_chage_flag"
+    t.integer "confirm"
+    t.integer "approval_id"
     t.index ["user_id"], name: "index_attendances_on_user_id"
   end
 
   create_table "bases", force: :cascade do |t|
     t.string "name"
     t.string "btype"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "create_attendances", force: :cascade do |t|
-    t.datetime "schedule"
-    t.boolean "next_day"
-    t.string "biz_memo"
-    t.string "confirmation"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "overtimes", force: :cascade do |t|
-    t.datetime "schedule"
-    t.boolean "next_day"
-    t.string "biz_memo"
-    t.string "confirmation"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -9,6 +9,14 @@ module AttendancesHelper
     # どれにも当てはまらなかった場合はfalseを返します。
     return false
   end
+  
+  def over_time(endtime, designated_work_end_time, day)
+    if day.next_day == true
+      format("%.2f", (((Time.parse(endtime) - Time.parse(designated_work_end_time)) / 60) / 60.0) + 24)
+    else
+      format("%.2f", (((Time.parse(endtime) - Time.parse(designated_work_end_time)) / 60) / 60.0))
+    end
+  end
 
   # 出勤時間と退勤時間を受け取り、在社時間を計算して返します。
   def times(start, finish)
